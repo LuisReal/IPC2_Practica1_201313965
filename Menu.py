@@ -9,7 +9,7 @@ class Menu:
         
         opcion = 0
         self.lista_orden = ListaEnlazadaOrden()
-        self.tiempo_espera = 0
+        self.tiempo_espera = 0 #48
 
         while opcion != 5:
             print("\nMenu Principal: \n1.Ingresar Orden \n2.Mostrar Lista de Ordenes \n3.Entregar Orden" 
@@ -28,17 +28,18 @@ class Menu:
                 segundo = now.second
                 hora_inicio = str(hora)+":"+ str(minuto)+":"+str(segundo)
                 self.lista_orden.append(Orden(nombre_cliente, cantidad_pizzas, hora_inicio))
-                self.tiempo_espera = self.tiempo_espera + now.minute
+                self.tiempo_espera = self.tiempo_espera + now.minute#32, 48+33=81, 
                 pepperoni = 3
                 salchicha = 4
                 carne = 10
                 queso = 5
                 pina = 2
 
-                self.contador_tiempo= 0
+                
                 for i in range(cantidad_pizzas):
                     self.lista_orden.findByNombreCliente(nombre_cliente).lista_pizzas.append(Pizza(i+1))
                     opc = 0
+                    self.contador_tiempo= 0
                     while opc != 2:
                         print("\n1.Ingresar ingrediente de pizza ",i+1,"\n2.Salir")                
                         opc = int(input("Ingrese la opcion: "))
@@ -67,10 +68,15 @@ class Menu:
                     
                     print("El tiempo total en hacer la pizza ",i+1, " es: ",self.contador_tiempo)
                     self.tiempo_espera = self.tiempo_espera+self.contador_tiempo
-                    #self.lista_orden.findByNombreCliente(nombre_cliente).lista_pizzas.findByPizza(i+1).lista_ingredientes.printListaEnlazadaIngrediente()
-                print("tiempo en espera: ", self.tiempo_espera)  
-                hora_final = str(hora)+":"+str(self.tiempo_espera)+":"+str(segundo) 
-                self.lista_orden.findByNombreCliente(nombre_cliente).horaFinal(hora_final)
+                
+                print("cliente: ",nombre_cliente," tiempo en espera: ", self.tiempo_espera) 
+                if self.tiempo_espera>59: 
+                    minutos = self.tiempo_espera-60
+                    hora_final = str(hora+1)+":"+str(minutos)+":"+str(segundo)
+                    self.lista_orden.findByNombreCliente(nombre_cliente).horaFinal(hora_final)
+                elif self.tiempo_espera<60:
+                    hora_final = str(hora)+":"+str(self.tiempo_espera)+":"+str(segundo)
+                    self.lista_orden.findByNombreCliente(nombre_cliente).horaFinal(hora_final)
 
             elif opcion == 2:
                 self.lista_orden.printListaEnlazadaIngresarOrden()
@@ -78,8 +84,12 @@ class Menu:
             elif opcion == 3:
                 print("Entregando orden.......")
                 entregado = self.lista_orden.pop()
-                print("cliente: ",entregado.nombre_cliente," hora de entrega: ",entregado.hora_final)
-                self.lista_orden.printListaEnlazadaEntregarOrden()
+                if entregado is None:
+                    print("LA COLA ESTA VACIA")
+                else:
+                    print("cliente: ",entregado.nombre_cliente," hora de entrega: ",entregado.hora_final)
+                
+                #self.lista_orden.printListaEnlazadaEntregarOrden()
 
             elif opcion == 4:
                 print("Nombre: Luis Fernando Gonzalez Real\n","Carrera: Ingenieria en Ciencias y Sistemas\n" ,"Carne: 201313965")

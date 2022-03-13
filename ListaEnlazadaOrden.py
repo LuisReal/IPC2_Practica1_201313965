@@ -42,8 +42,9 @@ class ListaEnlazadaOrden:
     def pop(self, nombre_cliente = None):
         if nombre_cliente is None:
             if self.ultimo.anterior is None:
+                nodoaux = self.ultimo
                 self.ultimo = Orden()
-                return self.ultimo
+                return nodoaux
             else:
                 nodoaux = self.ultimo
                 nodoPenultimo = nodoaux
