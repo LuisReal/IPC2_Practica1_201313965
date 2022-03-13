@@ -1,7 +1,8 @@
 
 class Ingrediente:
-    def __init__(self,  ingrediente = None):
+    def __init__(self,  ingrediente = None, tiempo = None):
         self.ingrediente = ingrediente
+        self.tiempo = tiempo
         self.siguiente = None
         
 
@@ -69,7 +70,7 @@ class ListaEnlazadaIngrediente:
         cadena = ''
         while True:
             if nodoAux.ingrediente is not None:
-                cadena += '(' + nodoAux.ingrediente +') -> '
+                cadena += '(' +" ingrediente: "+ nodoAux.ingrediente +" tiempo:"+ str(nodoAux.tiempo)+') -> '
                 if nodoAux.siguiente is not None:
                     nodoAux = nodoAux.siguiente
                 else:
